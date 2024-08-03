@@ -644,17 +644,13 @@ struct __sanitizer_sigaction {
 };
 #else // !SANITIZER_ANDROID
 struct __sanitizer_sigaction {
-#if defined(__mips__) && !SANITIZER_FREEBSD
+#if defined(__mips__)
   unsigned int sa_flags;
 #endif
   union {
     __sanitizer_sigactionhandler_ptr sigaction;
     __sanitizer_sighandler_ptr handler;
   };
-#if SANITIZER_FREEBSD
-  int sa_flags;
-  __sanitizer_sigset_t sa_mask;
-#else
 #if defined(__s390x__)
   int sa_resv;
 #else
@@ -675,7 +671,6 @@ struct __sanitizer_sigaction {
 #endif
 #else
   int sa_flags;
-#endif
 #endif
 #endif
 #if SANITIZER_LINUX
@@ -891,7 +886,7 @@ extern int shmctl_shm_info;
 extern int shmctl_shm_stat;
 #endif
 
-#if !SANITIZER_APPLE && !SANITIZER_FREEBSD
+#if !SANITIZER_APPLE
 extern unsigned struct_utmp_sz;
 #endif
 #if !SANITIZER_ANDROID
@@ -1057,7 +1052,7 @@ extern const unsigned long __sanitizer_bufsiz;
 #if SANITIZER_LINUX && !SANITIZER_ANDROID
 extern unsigned struct_audio_buf_info_sz;
 extern unsigned struct_ppp_stats_sz;
-#endif  // (SANITIZER_LINUX || SANITIZER_FREEBSD) && !SANITIZER_ANDROID
+#endif  // SANITIZER_LINUX && !SANITIZER_ANDROID
 
 #if !SANITIZER_ANDROID && !SANITIZER_APPLE
 extern unsigned struct_sioc_sg_req_sz;
