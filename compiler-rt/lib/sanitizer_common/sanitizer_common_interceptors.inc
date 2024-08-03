@@ -8067,13 +8067,22 @@ INTERCEPTOR(int, regcomp, void *preg, const char *pattern, int cflags) {
   return res;
 }
 INTERCEPTOR(int, regexec, const void *preg, const char *string, SIZE_T nmatch,
-            struct __sanitizer_regmatch_t *pmatch[], int eflags) {
+            struct __sanitizer_regmatch_t pmatch[], int eflags) {
   void *ctx;
   COMMON_INTERCEPTOR_ENTER(ctx, regexec, preg, string, nmatch, pmatch, eflags);
   if (preg)
     COMMON_INTERCEPTOR_READ_RANGE(ctx, preg, struct_regex_sz);
-  if (string && (eflags & reg_startend) == 0)
-    COMMON_INTERCEPTOR_READ_RANGE(ctx, string, internal_strlen(string) + 1);
+  if (string) {
+    if ((eflags & reg_startend) == 0) {
+      COMMON_INTERCEPTOR_READ_RANGE(ctx, string, internal_strlen(string) + 1);
+    } else if (pmatch) {
+      // Ensure we can read pmatch[0].
+      COMMON_INTERCEPTOR_READ_RANGE(ctx, pmatch, struct_regmatch_t_sz);
+      if (pmatch[0].rm_so < pmatch[0].rm_eo)
+        COMMON_INTERCEPTOR_READ_RANGE(ctx, string + pmatch[0].rm_so,
+                                      pmatch[0].rm_eo - pmatch[0].rm_so);
+    }
+  }
   int res = REAL(regexec)(preg, string, nmatch, pmatch, eflags);
   if (!res && pmatch)
     COMMON_INTERCEPTOR_WRITE_RANGE(ctx, pmatch, nmatch * struct_regmatch_t_sz);
