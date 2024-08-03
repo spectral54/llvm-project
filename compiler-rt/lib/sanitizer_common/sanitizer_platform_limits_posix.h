@@ -68,7 +68,7 @@ extern unsigned struct_sched_param_sz;
 extern unsigned struct_statfs64_sz;
 #endif
 extern unsigned struct_regex_sz;
-extern unsigned struct_regmatch_sz;
+extern unsigned struct_regmatch_t_sz;
 
 #if !SANITIZER_ANDROID
 extern unsigned struct_fstab_sz;

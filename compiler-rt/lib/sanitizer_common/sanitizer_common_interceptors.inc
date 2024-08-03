@@ -8067,7 +8067,7 @@ INTERCEPTOR(int, regcomp, void *preg, const char *pattern, int cflags) {
   return res;
 }
 INTERCEPTOR(int, regexec, const void *preg, const char *string, SIZE_T nmatch,
-            struct __sanitizer_regmatch *pmatch[], int eflags) {
+            struct __sanitizer_regmatch_t *pmatch[], int eflags) {
   void *ctx;
   COMMON_INTERCEPTOR_ENTER(ctx, regexec, preg, string, nmatch, pmatch, eflags);
   if (preg)
@@ -8076,7 +8076,7 @@ INTERCEPTOR(int, regexec, const void *preg, const char *string, SIZE_T nmatch,
     COMMON_INTERCEPTOR_READ_RANGE(ctx, string, internal_strlen(string) + 1);
   int res = REAL(regexec)(preg, string, nmatch, pmatch, eflags);
   if (!res && pmatch)
-    COMMON_INTERCEPTOR_WRITE_RANGE(ctx, pmatch, nmatch * struct_regmatch_sz);
+    COMMON_INTERCEPTOR_WRITE_RANGE(ctx, pmatch, nmatch * struct_regmatch_t_sz);
   return res;
 }
 INTERCEPTOR(SIZE_T, regerror, int errcode, const void *preg, char *errbuf,
@@ -8108,14 +8108,14 @@ INTERCEPTOR(void, regfree, const void *preg) {
 
 #if SANITIZER_INTERCEPT_REGEXSUB
 INTERCEPTOR(SSIZE_T, regnsub, char *buf, SIZE_T bufsiz, const char *sub,
-            const struct __sanitizer_regmatch *rm, const char *str) {
+            const struct __sanitizer_regmatch_t *rm, const char *str) {
   void *ctx;
   COMMON_INTERCEPTOR_ENTER(ctx, regnsub, buf, bufsiz, sub, rm, str);
   if (sub)
     COMMON_INTERCEPTOR_READ_RANGE(ctx, sub, internal_strlen(sub) + 1);
   // The implementation demands and hardcodes 10 elements
   if (rm)
-    COMMON_INTERCEPTOR_READ_RANGE(ctx, rm, 10 * struct_regmatch_sz);
+    COMMON_INTERCEPTOR_READ_RANGE(ctx, rm, 10 * struct_regmatch_t_sz);
   if (str)
     COMMON_INTERCEPTOR_READ_RANGE(ctx, str, internal_strlen(str) + 1);
   SSIZE_T res = REAL(regnsub)(buf, bufsiz, sub, rm, str);
@@ -8124,14 +8124,14 @@ INTERCEPTOR(SSIZE_T, regnsub, char *buf, SIZE_T bufsiz, const char *sub,
   return res;
 }
 INTERCEPTOR(SSIZE_T, regasub, char **buf, const char *sub,
-            const struct __sanitizer_regmatch *rm, const char *sstr) {
+            const struct __sanitizer_regmatch_t *rm, const char *sstr) {
   void *ctx;
   COMMON_INTERCEPTOR_ENTER(ctx, regasub, buf, sub, rm, sstr);
   if (sub)
     COMMON_INTERCEPTOR_READ_RANGE(ctx, sub, internal_strlen(sub) + 1);
   // Hardcode 10 elements as this is hardcoded size
   if (rm)
-    COMMON_INTERCEPTOR_READ_RANGE(ctx, rm, 10 * struct_regmatch_sz);
+    COMMON_INTERCEPTOR_READ_RANGE(ctx, rm, 10 * struct_regmatch_t_sz);
   if (sstr)
     COMMON_INTERCEPTOR_READ_RANGE(ctx, sstr, internal_strlen(sstr) + 1);
   SSIZE_T res = REAL(regasub)(buf, sub, rm, sstr);

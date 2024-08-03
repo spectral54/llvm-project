@@ -58,11 +58,11 @@ extern unsigned struct_FTS_sz;
 extern unsigned struct_FTSENT_sz;
 
 extern unsigned struct_regex_sz;
-extern unsigned struct_regmatch_sz;
+extern unsigned struct_regmatch_t_sz;
 
 extern unsigned struct_fstab_sz;
 
-struct __sanitizer_regmatch {
+struct __sanitizer_regmatch_t {
   OFF_T rm_so;
   OFF_T rm_eo;
 };

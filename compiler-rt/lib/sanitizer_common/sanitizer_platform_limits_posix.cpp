@@ -207,7 +207,7 @@ namespace __sanitizer {
   unsigned struct_sigevent_sz = sizeof(struct sigevent);
   unsigned struct_sched_param_sz = sizeof(struct sched_param);
   unsigned struct_regex_sz = sizeof(regex_t);
-  unsigned struct_regmatch_sz = sizeof(regmatch_t);
+  unsigned struct_regmatch_t_sz = sizeof(regmatch_t);
 
 #if SANITIZER_HAS_STATFS64
   unsigned struct_statfs64_sz = sizeof(struct statfs64);
