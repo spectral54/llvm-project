@@ -1362,6 +1362,12 @@ CHECK_SIZE_AND_OFFSET(cookie_io_functions_t, close);
 CHECK_TYPE_SIZE(sem_t);
 #endif
 
+#  if SANITIZER_INTERCEPT_REGEX
+CHECK_TYPE_SIZE(regmatch_t);
+CHECK_SIZE_AND_OFFSET(regmatch_t, rm_so);
+CHECK_SIZE_AND_OFFSET(regmatch_t, rm_eo);
+#  endif
+
 #if SANITIZER_LINUX && defined(__arm__)
 COMPILER_CHECK(ARM_VFPREGS_SIZE == ARM_VFPREGS_SIZE_ASAN);
 #endif

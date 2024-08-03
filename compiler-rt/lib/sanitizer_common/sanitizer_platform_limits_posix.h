@@ -1513,7 +1513,26 @@ extern const int si_SEGV_MAPERR;
 extern const int si_SEGV_ACCERR;
 
 extern const int reg_startend;
+extern const unsigned regoff_t_sz;
 
+#  if SANITIZER_GLIBC
+// glibc's regex.h mentions _REGEX_LARGE_OFFSETS to make this posix compliant,
+// but this is not supported when using the glibc-provided regex functions.
+// Attempting to use it will cause segfaults.
+struct __sanitizer_regmatch_t {
+  int rm_so;
+  int rm_eo;
+};
+#  else
+// Various platforms use different types here, including `off_t`, `ssize_t`, and
+// `int64_t`. According to posix, this is meant to be at least as large as the
+// larger of `ptrdiff_t` and `ssize_t`. This definition assumes the sanitizer's
+// `sptr` type satisfies that criteria.
+struct __sanitizer_regmatch_t {
+  sptr rm_so;
+  sptr rm_eo;
+};
+#  endif
 }  // namespace __sanitizer
 
 #define CHECK_TYPE_SIZE(TYPE) \

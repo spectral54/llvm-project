@@ -725,6 +725,12 @@ SHA2_EXTERN(512);
 #undef SHA2_EXTERN
 
 extern const int reg_startend;
+
+struct __sanitizer_regmatch_t {
+  OFF_T rm_so;
+  OFF_T rm_eo;
+};
+
 struct __sanitizer_cap_rights {
   u64 cr_rights[2];
 };
