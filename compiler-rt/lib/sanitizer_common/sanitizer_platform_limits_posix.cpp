@@ -991,6 +991,12 @@ unsigned struct_ElfW_Phdr_sz = sizeof(Elf_Phdr);
 
   const int si_SEGV_MAPERR = SEGV_MAPERR;
   const int si_SEGV_ACCERR = SEGV_ACCERR;
+
+#  ifdef REG_STARTEND
+  const int reg_startend = REG_STARTEND;
+#  else
+  const int reg_startend = 0;
+#  endif
 } // namespace __sanitizer
 
 using namespace __sanitizer;

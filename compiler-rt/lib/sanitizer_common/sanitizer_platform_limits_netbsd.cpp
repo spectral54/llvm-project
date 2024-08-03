@@ -2506,6 +2506,12 @@ SHA2_CONST(512);
 
 const int unvis_valid = UNVIS_VALID;
 const int unvis_validpush = UNVIS_VALIDPUSH;
+
+#  ifdef REG_STARTEND
+const int reg_startend = REG_STARTEND;
+#  else
+const int reg_startend = 0;
+#  endif
 }  // namespace __sanitizer
 
 using namespace __sanitizer;

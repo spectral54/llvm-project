@@ -62,6 +62,8 @@ extern unsigned struct_regmatch_t_sz;
 
 extern unsigned struct_fstab_sz;
 
+extern int reg_startend;
+
 struct __sanitizer_regmatch_t {
   OFF_T rm_so;
   OFF_T rm_eo;

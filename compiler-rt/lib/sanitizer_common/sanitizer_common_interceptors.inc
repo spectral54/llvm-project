@@ -8072,7 +8072,7 @@ INTERCEPTOR(int, regexec, const void *preg, const char *string, SIZE_T nmatch,
   COMMON_INTERCEPTOR_ENTER(ctx, regexec, preg, string, nmatch, pmatch, eflags);
   if (preg)
     COMMON_INTERCEPTOR_READ_RANGE(ctx, preg, struct_regex_sz);
-  if (string)
+  if (string && (eflags & reg_startend) == 0)
     COMMON_INTERCEPTOR_READ_RANGE(ctx, string, internal_strlen(string) + 1);
   int res = REAL(regexec)(preg, string, nmatch, pmatch, eflags);
   if (!res && pmatch)

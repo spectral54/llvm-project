@@ -1511,6 +1511,9 @@ extern unsigned IOCTL_PIO_SCRNMAP;
 
 extern const int si_SEGV_MAPERR;
 extern const int si_SEGV_ACCERR;
+
+extern const int reg_startend;
+
 }  // namespace __sanitizer
 
 #define CHECK_TYPE_SIZE(TYPE) \
