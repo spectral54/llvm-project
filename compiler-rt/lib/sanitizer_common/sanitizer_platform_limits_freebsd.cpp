@@ -575,4 +575,9 @@ CHECK_TYPE_SIZE(sem_t);
 
 COMPILER_CHECK(sizeof(__sanitizer_cap_rights_t) >= sizeof(cap_rights_t));
 COMPILER_CHECK(sizeof(__sanitizer_cpuset_t) >= sizeof(cpuset_t));
+
+CHECK_TYPE_SIZE(regmatch_t);
+CHECK_SIZE_AND_OFFSET(regmatch_t, rm_so);
+CHECK_SIZE_AND_OFFSET(regmatch_t, rm_eo);
+
 #endif  // SANITIZER_FREEBSD
