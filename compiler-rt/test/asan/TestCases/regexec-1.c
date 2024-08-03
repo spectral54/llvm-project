@@ -1,8 +1,7 @@
 // RUN: %clang_asan -O2 %s -o %t
 // RUN: %run %t test1 2>&1 | FileCheck %s --check-prefix=TEST1
 // RUN: %run %t test2 2>&1 | FileCheck %s --check-prefix=TEST2
-// FIXME: this should not fail.
-// RUN: not %run %t test3 2>&1 | FileCheck %s --check-prefix=TEST3
+// RUN: %run %t test3 2>&1 | FileCheck %s --check-prefix=TEST3
 
 #include <regex.h>
 #include <stdio.h>
@@ -94,8 +93,7 @@ int main(int argc, char **argv) {
   // TEST2: MATCHED: BC
   else if (!strcmp(argv[1], "test3"))
     test3(&re);
-  // FIXME: This should be 'MATCHED: DE', not an asan failure.
-  // TEST3: use-after-poison
+  // TEST3: MATCHED: DE
   else {
     printf("Error: %s not a valid test", argv[1]);
     ret = 1;
