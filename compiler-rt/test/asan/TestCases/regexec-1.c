@@ -1,9 +1,9 @@
 // RUN: %clang_asan -O2 %s -o %t
 // RUN: %run %t test1 2>&1 | FileCheck %s --check-prefix=TEST1
 // RUN: %run %t test2 2>&1 | FileCheck %s --check-prefix=TEST2
-// FIXME: test3 should not fail.
-// RUN: not %run %t test3 2>&1 | FileCheck %s --check-prefix=TEST3
-// RUN: not %run %t test4 2>&1 | FileCheck %s --check-prefix=TEST4
+// RUN: %run %t test3 2>&1 | FileCheck %s --check-prefix=TEST3
+// FIXME: test4 should not pass.
+// RUN: %run %t test4 2>&1 | FileCheck %s --check-prefix=TEST4
 
 #include <regex.h>
 #include <stdio.h>
@@ -52,8 +52,7 @@ void test2(regex_t *re) {
 #endif
 }
 
-// FIXME: This should be 'MATCHED: CD', not an asan failure.
-// TEST3: use-after-poison
+// TEST3: MATCHED: CD
 void test3(regex_t *re) {
 #ifndef REG_STARTEND
   // Print the expected line if REG_STARTEND is unavailable
@@ -82,11 +81,12 @@ void test3(regex_t *re) {
 #endif
 }
 
-// TEST4: use-after-poison
+// FIXME: test4 should not pass, and it shouldn't include any X's
+// TEST4: MATCHED: XXXXABCD
 void test4(regex_t *re) {
 #ifndef REG_STARTEND
   // Print the expected line if REG_STARTEND is unavailable
-  printf("use-after-poison");
+  printf("MATCHED: XXXXABCD");
   return;
 #else
   regmatch_t match[1];

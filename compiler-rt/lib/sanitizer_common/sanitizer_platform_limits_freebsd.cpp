@@ -394,6 +394,12 @@ SHA2_CONST(384);
 SHA2_CONST(512);
 
 #undef SHA2_CONST
+
+#  ifdef REG_STARTEND
+const int reg_startend = REG_STARTEND;
+#  else
+const int reg_startend = 0;
+#  endif
 }  // namespace __sanitizer
 
 using namespace __sanitizer;
