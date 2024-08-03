@@ -61,7 +61,7 @@ unsigned ucontext_t_sz(void *ctx);
 extern unsigned struct_rlimit_sz;
 extern unsigned struct_utimbuf_sz;
 extern unsigned struct_timespec_sz;
-extern unsigned struct_regmatch_sz;
+extern unsigned struct_regmatch_t_sz;
 extern unsigned struct_regex_sz;
 extern unsigned struct_FTS_sz;
 extern unsigned struct_FTSENT_sz;

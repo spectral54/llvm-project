@@ -563,7 +563,7 @@ unsigned struct_kevent_sz = sizeof(struct kevent);
 unsigned struct_FTS_sz = sizeof(FTS);
 unsigned struct_FTSENT_sz = sizeof(FTSENT);
 unsigned struct_regex_sz = sizeof(regex_t);
-unsigned struct_regmatch_sz = sizeof(regmatch_t);
+unsigned struct_regmatch_t_sz = sizeof(regmatch_t);
 unsigned struct_fstab_sz = sizeof(struct fstab);
 unsigned struct_utimbuf_sz = sizeof(struct utimbuf);
 unsigned struct_itimerspec_sz = sizeof(struct itimerspec);
@@ -2695,6 +2695,10 @@ CHECK_SIZE_AND_OFFSET(modctl_load_t, ml_filename);
 CHECK_SIZE_AND_OFFSET(modctl_load_t, ml_flags);
 CHECK_SIZE_AND_OFFSET(modctl_load_t, ml_props);
 CHECK_SIZE_AND_OFFSET(modctl_load_t, ml_propslen);
+
+CHECK_TYPE_SIZE(regmatch_t);
+CHECK_SIZE_AND_OFFSET(regmatch_t, rm_so);
+CHECK_SIZE_AND_OFFSET(regmatch_t, rm_eo);
 
 // Compat with 9.0
 struct statvfs90 {
